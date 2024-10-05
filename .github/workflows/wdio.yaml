@@ -35,7 +35,7 @@ jobs:
         run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           RNERS=${{ env.RUNNERS }}
-          echo "$(seq -s, 1 $RNERS)" | sed 's/,$//' >> "$GITHUB_OUTPUT"
+          echo "[$(seq -s, 1 $RNERS)]" | sed 's/,$//' >> "$GITHUB_OUTPUT"
 
   run-scripts:
     needs: setup-matrix
