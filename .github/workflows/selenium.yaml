@@ -9,14 +9,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check version
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-          
-      - name: Check versions
+          node-version: 20
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Check Installed versions
         run: |
-          node --version
-          npm --version
-          google-chrome --version
+          echo "Node   : $(node --version)"
+          echo "NPM    : $(npm --version)"
+          echo "Java   : $(java --version)"
+          echo "Chrome : $(google-chrome --version)"
           
