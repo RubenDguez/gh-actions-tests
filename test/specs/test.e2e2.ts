@@ -2,7 +2,7 @@ import { expect } from '@wdio/globals'
 import LoginPage from '../pageobjects/login.page.js'
 import SecurePage from '../pageobjects/secure.page.js'
 
-describe('My Login application', () => {
+describe('My Login application 2', () => {
     it('should login with valid credentials', async () => {
         await LoginPage.open()
 
@@ -12,4 +12,3 @@ describe('My Login application', () => {
             expect.stringContaining('You logged into a secure area!'))
     })
 })
-
