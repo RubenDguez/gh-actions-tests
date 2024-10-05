@@ -34,7 +34,7 @@ jobs:
         id: set-matrix
         run: |
           RNERS=${{ env.RUNNERS }}
-          echo "[$(seq -s, 1 $RNERS)]" >> "$GITHUB_OUTPUT"
+          echo "$(seq -s, 1 $RNERS)" >> "$GITHUB_OUTPUT"
 
   run-scripts:
     needs: setup-matrix
