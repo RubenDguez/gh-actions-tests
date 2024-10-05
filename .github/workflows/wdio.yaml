@@ -56,13 +56,13 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
 
-      - name: Dump All Artifacts into Allure Directory
+      - name: Dump All Artifacts into Results Directory
         run: |
-          mkdir -p allure-results
-          find . -type d -name 'allure-results*' -exec find {} -type f \; -exec mv {} allure-results/ \;
+          mkdir -p results
+          find . -type d -name 'allure-results*' -exec find {} -type f \; -exec mv {} results/ \;
 
       - name: Generate Report
-        run: npx allure generate --clean
+        run: npx allure generate results --clean -o allure-report
 
       
           
