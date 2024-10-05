@@ -6,4 +6,4 @@ for (let index = 1; index <= MAX_RUNNERS; index++) {
     runners.push(index);
 }
 
-process.stdout.write(runners.join(','));
+process.stdout.write(JSON.stringify(runners));

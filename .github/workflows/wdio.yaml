@@ -40,7 +40,7 @@ jobs:
 
       - name: Set Matrix
         id: set-matrix
-        run: echo "[$(node .github/utils/setup-matrix.js ${{ env.RUNNERS }})]" >> "$GITHUB_OUTPUT"
+        run: echo "$(node .github/utils/setup-matrix.js ${{ env.RUNNERS }})" >> "$GITHUB_OUTPUT"
 
   run-scripts:
     needs: setup-matrix
