@@ -1,0 +1,17 @@
+name: Selenium
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  using-selenium:
+    runs-on: ubuntu-latest
+    container: selenium/standalone-chrome:latest
+
+    steps:
+      - name: Check version
+        run: |
+          node --version
+          npm --version
+          chrome --version
