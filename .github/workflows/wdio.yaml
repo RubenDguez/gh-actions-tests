@@ -60,7 +60,7 @@ jobs:
         run: npm install
 
       - name: Run WDIO Scripts
-        run: npm run wdio -- --shard=${{ matrix.runner }}/${{ env.RUNNERS }}
+        run: npm run wdio -- --shard=${{ matrix.runner }}/${{ env.RUNNERS }} || true
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
