@@ -7,6 +7,9 @@ on:
 jobs:
   using-selenium:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runner: [1, 2, 3, 4, 5]
 
     steps:
       - name: Setup Node
@@ -29,7 +32,7 @@ jobs:
           npm install -g allure-commandline
 
       - name: Run WDIO Scripts
-        run: npm run wdio
+        run: npm run wdio -- --shard=${{ matrix.runner }}/5
 
       - name: Generate Allure Report
         run: npx allure generate --clean
