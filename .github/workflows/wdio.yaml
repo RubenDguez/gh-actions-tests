@@ -20,13 +20,6 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Check Installed versions
-        run: |
-          echo "Node   : $(node --version)"
-          echo "NPM    : $(npm --version)"
-          echo "Chrome : $(google-chrome --version)"
-          echo "Java   : \n$(java --version)"
-
       - name: Checkout Code
         uses: actions/checkout@v4
       
@@ -45,4 +38,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: allure-report
+          name: allure-report-${{ github.run_id }}
           
