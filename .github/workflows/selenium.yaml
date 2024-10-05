@@ -7,7 +7,7 @@ on:
 jobs:
   using-selenium:
     runs-on: ubuntu-latest
-    container: selenium/node-chrome-112.0-chromedriver-112.0 
+    container: selenium/node-chrome
 
     steps:
       - name: Check version
