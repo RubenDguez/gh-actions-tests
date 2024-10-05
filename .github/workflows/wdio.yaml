@@ -4,6 +4,14 @@ on:
   push:
     branches: [main]
 
+  workflow_dispatch:
+    inputs:
+      NUMBER_OF_RUNNERS:
+        required: true
+        type: number
+        description: How many runners do you want this work flow to use ?
+        default: 5
+
 jobs:
   send-notification-email:
     runs-on: ubuntu-latest
