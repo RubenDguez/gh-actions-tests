@@ -1,9 +1,6 @@
 name: WDIO
 
 on:
-  push:
-    branches: [main]
-
   workflow_dispatch:
     inputs:
       NUMBER_OF_RUNNERS:
@@ -63,7 +60,7 @@ jobs:
         run: npm install
 
       - name: Run WDIO Scripts
-        run: npm run wdio -- --shard=${{ matrix.runner }}/5
+        run: npm run wdio -- --shard=${{ matrix.runner }}/${{ env.RUNNERS }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
