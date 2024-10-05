@@ -5,6 +5,14 @@ on:
     branches: [main]
 
 jobs:
+  send-notification-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Email
+        run: |
+          echo "Sending Email using node mailer"
+
   run-scripts:
     runs-on: ubuntu-latest
     strategy:
