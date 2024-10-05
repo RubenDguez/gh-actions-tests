@@ -61,6 +61,8 @@ jobs:
         with:
           path: allure-results
           name: allure-results-${{ github.run_id }}-${{ matrix.runner }}
+          if-no-files-found: ignore
+          retention-days: 1
 
   generate-report:
     needs: run-scripts
@@ -92,7 +94,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: allure-report
-          name: allure-report    
+          name: allure-report  
+          retention-days: 1  
           
   send-report-link-email:
     needs: generate-report
