@@ -7,11 +7,15 @@ on:
 jobs:
   using-selenium:
     runs-on: ubuntu-latest
-    container: selenium/node-chrome
 
     steps:
       - name: Check version
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          
+      - name: Check versions
         run: |
-          chrome --version
           node --version
           npm --version
+          
