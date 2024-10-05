@@ -74,6 +74,8 @@ jobs:
         run: |
           mkdir -p allure-results
           find results -type f -exec cp {} allure-results \;
+          ls -la results
+          ls -la allure-results
 
       - name: Generate Report
         run: npx allure generate allure-resutls --clean -o allure-report
