@@ -18,4 +18,5 @@ jobs:
         run: |
           node --version
           npm --version
+          google-chrome --version
           
