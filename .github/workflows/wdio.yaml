@@ -1,4 +1,4 @@
-name: Selenium
+name: WDIO
 
 on:
   push:
@@ -35,4 +35,12 @@ jobs:
 
       - name: Run WDIO Scripts
         run: npm run wdio
+
+      - name: Generate Allure Report
+        run: npx allure generate --clean
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: allure-report
           
