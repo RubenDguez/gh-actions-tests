@@ -32,4 +32,7 @@ jobs:
       
       - name: Install Dependencies
         run: npm install
+
+      - name: Run WDIO Scripts
+        run: npm run wdio
           
