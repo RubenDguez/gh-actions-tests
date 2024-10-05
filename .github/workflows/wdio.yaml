@@ -12,6 +12,9 @@ on:
         description: How many runners do you want this work flow to use ?
         default: 5
 
+env:
+  RUNNERS: ${{ inputs.NUMBER_OF_RUNNERS }}
+
 jobs:
   send-notification-email:
     runs-on: ubuntu-latest
@@ -21,11 +24,30 @@ jobs:
         run: |
           echo "Sending Email using node mailer"
 
+  setup-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Matrix
+        id: set-matrix
+        run: echo "[$(node .github/utils/setup-matrix.js ${{ env.RUNNERS }})]" >> "$GITHUB_OUTPUT"
+
   run-scripts:
+    needs: setup-matrix
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        runner: [1, 2, 3, 4, 5]
+        runner: ${{fromJson(needs.setup-matrix.outputs.matrix)}}
 
     steps:
       - name: Setup Node
