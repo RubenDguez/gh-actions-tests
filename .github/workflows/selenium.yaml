@@ -24,6 +24,12 @@ jobs:
         run: |
           echo "Node   : $(node --version)"
           echo "NPM    : $(npm --version)"
-          echo "Java   : $(java --version)"
           echo "Chrome : $(google-chrome --version)"
+          echo "Java   : \n$(java --version)"
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Install Dependencies
+        run: npm install
           
