@@ -55,14 +55,22 @@ jobs:
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
+        with:
+          path: results
 
-      - name: Dump All Artifacts into Results Directory
+      - name: Dump all artifacts into allure-results directory
         run: |
-          mkdir -p results
-          find . -type d -name 'allure-results*' -exec find {} -type f \; -exec mv {} results/ \;
+          mkdir -p allure-results
+          find results -type f -exec cp {} allure-results \;
 
       - name: Generate Report
-        run: npx allure generate results --clean -o allure-report
+        run: npx allure generate allure-resutls --clean -o allure-report
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          path: allure-report
+          name: allure-report
 
       
           
