@@ -34,12 +34,9 @@ jobs:
       - name: Run WDIO Scripts
         run: npm run wdio -- --shard=${{ matrix.runner }}/5
 
-      - name: Generate Allure Report
-        run: npx allure generate --clean
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          path: allure-report
-          name: allure-report-${{ github.run_id }}
+          path: allure-results
+          name: allure-results-${{ github.run_id }}-${{ matrix.runner }}
           
