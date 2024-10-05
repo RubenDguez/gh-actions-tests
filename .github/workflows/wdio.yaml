@@ -30,17 +30,11 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     steps:
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
       - name: Set Matrix
         id: set-matrix
-        run: echo "$(node .github/utils/setup-matrix.js ${{ env.RUNNERS }})" >> "$GITHUB_OUTPUT"
+        run: |
+          RNERS=${{ env.RUNNERS }}
+          echo "[$(seq -s, 1 $RNERS)]" >> "$GITHUB_OUTPUT"
 
   run-scripts:
     needs: setup-matrix
