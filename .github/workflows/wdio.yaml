@@ -17,9 +17,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send Email
-        run: |
-          echo "Sending Email using node mailer"
+      - name: Emailer Action
+        uses: RubenDguez/emailer@v0.1.1-alpha
+        with:
+          secrets_user: ${{ secrets.EMAIL_USER }}
+          secrets_pass: ${{ secrets.EMAIL_PASS }}
+          from: 'donotreply <${{ secrets.EMAIL_USER }}>'
+          to: 'argenis.dominguez@hotmail.com'
+          subject: 'WDIO Is About to start'
+          html: '<h1>Hello there, the WDIO Workflow is about to start</h1>'
 
   setup-matrix:
     runs-on: ubuntu-latest
@@ -39,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        runner: ${{fromJson(needs.setup-matrix.outputs.matrix)}}
+        runner: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
 
     steps:
       - name: Setup Node
