@@ -11,9 +11,11 @@ inputs:
 outputs:
   matrix:
     description: Comma-separated list of numbers to use in a matrix
+    value: ${{ steps.set-matrix.outputs.matrix }}
 
   runners:
     description: Total count of .ts files
+    value: ${{ steps.set-matrix.outputs.runners }}
 
 runs:
   using: composite
