@@ -10,10 +10,10 @@ inputs:
 
 outputs:
   matrix:
-    description: Matrix of runners
+    description: Comma-separated list of numbers to use in a matrix
 
   runners:
-    description: Number of runners
+    description: Total count of .ts files
 
 runs:
   using: composite
@@ -22,6 +22,8 @@ runs:
       id: set-matrix
       shell: bash
       run: |
-        RNERS=$(find "${{ inputs.path }}" -type f -name "*.ts" | wc -l | xargs)
-        echo "matrix=[$(seq -s, 1 $RNERS)]" | sed 's/,$//' >> "$GITHUB_OUTPUT"
-        echo "runners=$RNERS" >> "$GITHUB_OUTPUT"
+        path=${{ inputs.path }}
+        runners=$(find "$path" -type f -name "*.ts" | wc -l | xargs)
+        matrix=$(seq -s, 1 $runners | sed 's/,$//')
+        echo "matrix=$matrix" >> "$GITHUB_ENV"
+        echo "runners=$runners" >> "$GITHUB_ENV"

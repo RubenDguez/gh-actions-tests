@@ -26,14 +26,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/matrix
+      - name: Set Matrix
         id: set-matrix
+        uses: ./.github/actions/matrix/
         with:
-          path: ./test/specs
-
-      - run: |
-          echo "matrix=${{ steps.set-matrix.outputs.matrix }}" >> "$GITHUB_OUTPUT"
-          echo "runners=${{ steps.set-matrix.outputs.runners }}" >> "$GITHUB_OUTPUT"
+          path: './test/specs'
 
   run-scripts:
     needs: setup-matrix
