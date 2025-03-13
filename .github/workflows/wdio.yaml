@@ -29,7 +29,6 @@ jobs:
       - name: Set Matrix
         id: set-matrix
         run: |
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           RNERS=$(find ./test/specs/ -type f -name "*.ts" | wc -l | xargs)
           echo "matrix=[$(seq -s, 1 $RNERS)]" | sed 's/,$//' >> "$GITHUB_OUTPUT"
           echo "runners=$RNERS" >> "$GITHUB_OUTPUT"
