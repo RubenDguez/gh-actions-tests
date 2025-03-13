@@ -25,5 +25,5 @@ runs:
         path=${{ inputs.path }}
         runners=$(find "$path" -type f -name "*.ts" | wc -l | xargs)
         matrix=$(seq -s, 1 $runners | sed 's/,$//')
-        echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
-        echo "runners=$runners" >> "$GITHUB_OUTPUT"
+        echo "matrix=$matrix" >> "${GITHUB_OUTPUT}"
+        echo "runners=$runners" >> "${GITHUB_OUTPUT}"
