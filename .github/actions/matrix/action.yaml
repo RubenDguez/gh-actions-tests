@@ -21,7 +21,6 @@ runs:
   using: composite
   steps:
     - name: Set Matrix
-      id: set-matrix
       shell: bash
       run: |
         path=${{ inputs.path }}

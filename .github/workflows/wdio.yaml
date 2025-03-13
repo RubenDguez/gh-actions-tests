@@ -41,7 +41,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run: echo ${{ matrix.runner }}
       - name: Run WDIO Scripts
         uses: ./.github/actions/wdio
         with:
