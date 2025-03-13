@@ -46,7 +46,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/wdio
+      - name: Run WDIO Scripts
+        uses: ./.github/actions/wdio
         with:
           current: ${{ matrix.runner }}
           of: ${{ inputs.NUMBER_OF_RUNNERS }}
@@ -57,7 +58,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/allure/generate/
+      - name: Generate Report
+        uses: ./.github/actions/allure/generate/
 
   send-report-link-email:
     needs: generate-report
