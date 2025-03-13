@@ -1,0 +1,36 @@
+name: Allure Generate Report Action
+description: Generate Allure Report
+author: Argenis Ruben Dominguez
+email: argenis.dominguez@hotmail.com
+
+runs:
+  - name: Setup Node
+    uses: actions/setup-node@v4
+    with:
+      node-version: 20
+
+  - name: Install Dependencies
+    shell: bash
+    run: npm install -g allure-commandline
+
+  - name: Download Artifacts
+    uses: actions/download-artifact@v4
+    with:
+      path: results
+
+  - name: Dump all artifacts into allure-results directory
+    shell: bash
+    run: |
+      mkdir -p allure-results
+      find results -type f -exec cp {} allure-results \;
+
+  - name: Generate Report
+    shell: bash
+    run: npx allure generate allure-results --clean -o allure-report
+
+  - name: Upload Report
+    uses: actions/upload-artifact@v4
+    with:
+      path: allure-report
+      name: allure-report  
+      retention-days: 1  

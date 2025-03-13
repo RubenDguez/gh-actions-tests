@@ -9,9 +9,6 @@ on:
         description: How many runners do you want this work flow to use ?
         default: 5
 
-env:
-  RUNNERS: ${{ inputs.NUMBER_OF_RUNNERS }}
-
 jobs:
   send-notification-email:
     runs-on: ubuntu-latest
@@ -37,7 +34,7 @@ jobs:
         id: set-matrix
         run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          RNERS=${{ env.RUNNERS }}
+          RNERS=${{ inputs.NUMBER_OF_RUNNERS }}
           echo "matrix=[$(seq -s, 1 $RNERS)]" | sed 's/,$//' >> "$GITHUB_OUTPUT"
 
   run-scripts:
@@ -48,79 +45,38 @@ jobs:
         runner: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
 
     steps:
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Checkout Code
         uses: actions/checkout@v4
-      
-      - name: Install Dependencies
-        run: npm install
 
-      - name: Run WDIO Scripts
-        run: npm run wdio -- --shard=${{ matrix.runner }}/${{ env.RUNNERS }} || true
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+      - uses: ./.github/actions/wdio
         with:
-          path: allure-results
-          name: allure-results-${{ github.run_id }}-${{ matrix.runner }}
-          if-no-files-found: ignore
-          retention-days: 1
+          current: ${{ matrix.runner }}
+          of: ${{ inputs.NUMBER_OF_RUNNERS }}
+          run_id: ${{ github.run_id }}
 
   generate-report:
     needs: run-scripts
     runs-on: ubuntu-latest
-
     steps:
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - uses: ./.github/actions/allure/generate/
 
-      - name: Install Dependencies
-        run: npm install -g allure-commandline
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: results
-
-      - name: Dump all artifacts into allure-results directory
-        run: |
-          mkdir -p allure-results
-          find results -type f -exec cp {} allure-results \;
-
-      - name: Generate Report
-        run: npx allure generate allure-results --clean -o allure-report
-
-      - name: Upload Report
-        uses: actions/upload-artifact@v4
-        with:
-          path: allure-report
-          name: allure-report  
-          retention-days: 1  
-          
   send-report-link-email:
     needs: generate-report
     runs-on: ubuntu-latest
 
     steps:
-
-    - name: Emailer Action
-      uses: RubenDguez/emailer@v0.1.1-alpha
-      with:
-        secrets_user: ${{ secrets.EMAIL_USER }}
-        secrets_pass: ${{ secrets.EMAIL_PASS }}
-        from: 'GH-ACTIONS-TESTS donot.reply@github.com <${{ secrets.EMAIL_USER }}>'
-        to: 'argenis.dominguez@hotmail.com'
-        subject: 'WDIO just finished running'
-        html: '
-          <div>
-            <h1>Hello there, the WDIO Workflow just finished running</h1>
-            <p>Please follow this link in order to download the report <a href="www.google.com">click here.</a></p>
-          </div>
-          '
+      - name: Emailer Action
+        uses: RubenDguez/emailer@v0.1.1-alpha
+        with:
+          secrets_user: ${{ secrets.EMAIL_USER }}
+          secrets_pass: ${{ secrets.EMAIL_PASS }}
+          from: 'GH-ACTIONS-TESTS donot.reply@github.com <${{ secrets.EMAIL_USER }}>'
+          to: 'argenis.dominguez@hotmail.com'
+          subject: 'WDIO just finished running'
+          html: '
+            <div>
+              <h1>Hello there, the WDIO Workflow just finished running</h1>
+              <p>Please follow this link in order to download the report <a href="www.google.com">click here.</a></p>
+            </div>
+            '
         

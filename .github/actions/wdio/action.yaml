@@ -1,0 +1,41 @@
+name: WDIO Action
+description: Run WDIO tests
+author: Argenis Ruben Dominguez
+email: argenis.dominguez@hotmail.com
+
+inputs:
+  current:
+    required: true
+    description: The current matrix runner
+
+  of:
+    required: true
+    description: The total amount of runners
+
+  run_id:
+    required: true
+    description: The current run id
+
+runs:
+  using: composite
+  steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        shell: bash
+        run: npm install
+
+      - name: Run WDIO Scripts
+        shell: bash
+        run: npm run wdio -- --shard=${{ inputs.current }}/${{ inputs.of }} || true
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: allure-results
+          name: allure-results-${{ inputs.run_id }}-${{ inputs.current }}
+          if-no-files-found: ignore
+          retention-days: 1
