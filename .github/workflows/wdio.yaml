@@ -32,7 +32,7 @@ jobs:
         with:
           path: './test/specs'
 
-  run-scripts:
+  spec:
     needs: setup-matrix
     runs-on: ubuntu-latest
     strategy:
@@ -49,7 +49,7 @@ jobs:
           run_id: ${{ github.run_id }}
 
   generate-report:
-    needs: run-scripts
+    needs: spec
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
