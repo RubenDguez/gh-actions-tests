@@ -19,23 +19,23 @@ inputs:
 runs:
   using: composite
   steps:
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
 
-      - name: Install Dependencies
-        shell: bash
-        run: npm install
+    - name: Install Dependencies
+      shell: bash
+      run: npm install
 
-      - name: Run WDIO Scripts
-        shell: bash
-        run: npm run wdio -- --shard=${{ inputs.current }}/${{ inputs.of }} || true
+    - name: Run WDIO Scripts
+      shell: bash
+      run: npm run wdio -- --shard=${{ inputs.current }}/${{ inputs.of }} || true
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          path: allure-results
-          name: allure-results-${{ inputs.run_id }}-${{ inputs.current }}
-          if-no-files-found: ignore
-          retention-days: 1
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        path: allure-results
+        name: allure-results-${{ inputs.run_id }}-${{ inputs.current }}
+        if-no-files-found: ignore
+        retention-days: 1
