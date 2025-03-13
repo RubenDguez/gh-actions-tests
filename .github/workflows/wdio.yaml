@@ -32,6 +32,10 @@ jobs:
         with:
           path: './test/specs'
 
+      - run: |
+          echo ${{ steps.set-matrix.outputs.matrix }}
+          echo ${{ steps.set-matrix.outputs.runners }}
+
   run-scripts:
     needs: setup-matrix
     runs-on: ubuntu-latest

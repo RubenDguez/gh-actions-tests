@@ -27,5 +27,3 @@ runs:
         matrix=$(seq -s, 1 $runners | sed 's/,$//')
         echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
         echo "runners=$runners" >> "$GITHUB_OUTPUT"
-        echo $runners
-        echo $matrix
