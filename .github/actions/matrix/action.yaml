@@ -8,6 +8,13 @@ inputs:
     required: true
     description: Path to the test specs
 
+outputs:
+  matrix:
+    description: Matrix of runners
+
+  runners:
+    description: Number of runners
+
 runs:
   using: composite
   steps:
