@@ -22,7 +22,7 @@ jobs:
         with:
           secrets_user: ${{ secrets.EMAIL_USER }}
           secrets_pass: ${{ secrets.EMAIL_PASS }}
-          from: 'donotreply <${{ secrets.EMAIL_USER }}>'
+          from: 'GH-ACTIONS-TESTS donot.reply@github.com <${{ secrets.EMAIL_USER }}>'
           to: 'argenis.dominguez@hotmail.com'
           subject: 'WDIO Is About to start'
           html: '<h1>Hello there, the WDIO Workflow is about to start</h1>'
@@ -108,6 +108,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send Email 
-        run: echo "send email containing report link"
+
+    - name: Emailer Action
+      uses: RubenDguez/emailer@v0.1.1-alpha
+      with:
+        secrets_user: ${{ secrets.EMAIL_USER }}
+        secrets_pass: ${{ secrets.EMAIL_PASS }}
+        from: 'GH-ACTIONS-TESTS donot.reply@github.com <${{ secrets.EMAIL_USER }}>'
+        to: 'argenis.dominguez@hotmail.com'
+        subject: 'WDIO just finished running'
+        html: '
+          <div>
+            <h1>Hello there, the WDIO Workflow just finished running</h1>
+            <p>Please follow this link in order to download the report <a href="www.google.com">click here.</a></p>
+          </div>
+          '
         
