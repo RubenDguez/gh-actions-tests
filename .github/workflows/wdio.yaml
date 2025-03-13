@@ -18,7 +18,7 @@ jobs:
           subject: 'WDIO Is About to start'
           html: '<h1>Hello there, the WDIO Workflow is about to start</h1>'
 
-  setup-matrix:
+  setup-spec-matrix:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }}
@@ -33,11 +33,11 @@ jobs:
           path: './test/specs'
 
   spec:
-    needs: setup-matrix
+    needs: setup-spec-matrix
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        runner: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
+        runner: ${{ fromJson(needs.setup-spec-matrix.outputs.matrix) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
         uses: ./.github/actions/wdio
         with:
           current: ${{ matrix.runner }}
-          of: ${{ needs.setup-matrix.outputs.runners }}
+          of: ${{ needs.setup-spec-matrix.outputs.runners }}
           run_id: ${{ github.run_id }}
 
   generate-report:
