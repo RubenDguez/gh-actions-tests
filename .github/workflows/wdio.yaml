@@ -57,7 +57,7 @@ jobs:
         uses: ./.github/actions/allure/generate/
 
   send-report-link-email:
-    needs: generate-report
+    needs: [send-notification-email, generate-report]
     runs-on: ubuntu-latest
 
     steps:
