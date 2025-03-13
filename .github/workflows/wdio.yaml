@@ -26,12 +26,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set Matrix
+      - uses: ./.github/actions/matrix
         id: set-matrix
-        run: |
-          RNERS=$(find ./test/specs/ -type f -name "*.ts" | wc -l | xargs)
-          echo "matrix=[$(seq -s, 1 $RNERS)]" | sed 's/,$//' >> "$GITHUB_OUTPUT"
-          echo "runners=$RNERS" >> "$GITHUB_OUTPUT"
+        with:
+          path: ./test/specs
 
   run-scripts:
     needs: setup-matrix

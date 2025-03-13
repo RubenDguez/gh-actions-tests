@@ -1,0 +1,19 @@
+name: Generate Matrix
+description: Generate Matrix
+author: Argenis Ruben Dominguez
+email: argenis.dominguez@hotmail.com
+
+inputs:
+  path:
+    required: true
+    description: Path to the test specs
+
+runs:
+  using: composite
+  steps:
+    - name: Set Matrix
+      id: set-matrix
+      run: |
+        RNERS=$(find ${{ inputs.path }} -type f -name "*.ts" | wc -l | xargs)
+        echo "matrix=[$(seq -s, 1 $RNERS)]" | sed 's/,$//' >> "$GITHUB_OUTPUT"
+        echo "runners=$RNERS" >> "$GITHUB_OUTPUT"
