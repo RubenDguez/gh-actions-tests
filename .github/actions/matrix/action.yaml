@@ -20,7 +20,6 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v4
     - name: Set Matrix
       id: set-matrix
       shell: bash

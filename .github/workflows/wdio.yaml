@@ -25,6 +25,7 @@ jobs:
       runners: ${{ steps.generate-matrix.outputs.runners }}
 
     steps:
+      - uses: actions/checkout@v4
       - name: Set Matrix
         id: generate-matrix
         uses: ./.github/actions/matrix/
