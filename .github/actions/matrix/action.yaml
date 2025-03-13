@@ -19,8 +19,11 @@ outputs:
 
 runs:
   using: composite
+  shell: bash
   steps:
+    - uses: actions/checkout@v4
     - name: Set Matrix
       id: set-matrix
-      shell: bash
-      run: ./index.sh
+      run: |
+        chmod +x ./.github/actions/matrix/index.sh
+        ./.github/actions/matrix/index.sh
