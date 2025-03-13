@@ -15,6 +15,6 @@ runs:
       id: set-matrix
       shell: bash
       run: |
-        RNERS=$(find ${{ inputs.path }} -type f -name "*.ts" | wc -l | xargs)
+        RNERS=$(find "${{ inputs.path }}" -type f -name "*.ts" | wc -l | xargs)
         echo "matrix=[$(seq -s, 1 $RNERS)]" | sed 's/,$//' >> "$GITHUB_OUTPUT"
         echo "runners=$RNERS" >> "$GITHUB_OUTPUT"
