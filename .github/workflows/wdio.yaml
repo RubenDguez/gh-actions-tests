@@ -2,12 +2,6 @@ name: WDIO
 
 on:
   workflow_dispatch:
-    inputs:
-      NUMBER_OF_RUNNERS:
-        required: true
-        type: number
-        description: How many runners do you want this work flow to use ?
-        default: 5
 
 jobs:
   send-notification-email:
@@ -28,14 +22,16 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+      runners: ${{ steps.set-matrix.outputs.runners }}
 
     steps:
       - name: Set Matrix
         id: set-matrix
         run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          RNERS=${{ inputs.NUMBER_OF_RUNNERS }}
+          RNERS=$(find ./test/specs/ -type f -name "*.ts" | wc -l | xargs)
           echo "matrix=[$(seq -s, 1 $RNERS)]" | sed 's/,$//' >> "$GITHUB_OUTPUT"
+          echo "runners=$RNERS" >> "$GITHUB_OUTPUT"
 
   run-scripts:
     needs: setup-matrix
@@ -50,7 +46,7 @@ jobs:
         uses: ./.github/actions/wdio
         with:
           current: ${{ matrix.runner }}
-          of: ${{ inputs.NUMBER_OF_RUNNERS }}
+          of: ${{ needs.setup-matrix.outputs.runners }}
           run_id: ${{ github.run_id }}
 
   generate-report:
