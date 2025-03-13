@@ -45,9 +45,7 @@ jobs:
         runner: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/wdio
         with:
           current: ${{ matrix.runner }}
@@ -58,6 +56,7 @@ jobs:
     needs: run-scripts
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/allure/generate/
 
   send-report-link-email:
