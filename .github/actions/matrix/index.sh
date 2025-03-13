@@ -1,15 +1,17 @@
 #!/bin/bash
 
+path=${{ inputs.path }} 
+runners=$(find "$path" -type f -name "*.ts" | wc -l | xargs)
+
 matrix=()
 
-for i in {1..5}
+for i in $(seq 1 $runners)
 do
-  # Store the number inside quotes as "*"
-  matrix+=("\"$i\"")
+    matrix+=($i)
 done
 
-path=${{ inputs.path }}
-runners=$(find "$path" -type f -name "*.ts" | wc -l | xargs)
+# Join the array elements with commas to form a JSON array
+matrix=$(IFS=, ; echo "[${matrix[*]}]")
 
 echo "matrix=${matrix[@]}" >> "$GITHUB_OUTPUT"
 echo "runners=$runners" >> "$GITHUB_OUTPUT"
