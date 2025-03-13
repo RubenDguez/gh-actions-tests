@@ -31,6 +31,10 @@ jobs:
         with:
           path: ./test/specs
 
+      - run: |
+          echo "matrix=${{ steps.set-matrix.outputs.matrix }}" >> "$GITHUB_OUTPUT"
+          echo "runners=${{ steps.set-matrix.outputs.runners }}" >> "$GITHUB_OUTPUT"
+
   run-scripts:
     needs: setup-matrix
     runs-on: ubuntu-latest
