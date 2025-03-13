@@ -21,13 +21,13 @@ jobs:
   setup-matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-      runners: ${{ steps.set-matrix.outputs.runners }}
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+      runners: ${{ steps.generate-matrix.outputs.runners }}
 
     steps:
       - uses: actions/checkout@v4
       - name: Set Matrix
-        id: set-matrix
+        id: generate-matrix
         uses: ./.github/actions/matrix/
         with:
           path: './test/specs'
